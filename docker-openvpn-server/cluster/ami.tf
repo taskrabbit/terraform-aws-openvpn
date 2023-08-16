@@ -1,4 +1,5 @@
 data "aws_ami" "cluster_ami" {
+  owners = ["amazon"]
   most_recent = true
 
   filter {
@@ -6,3 +7,4 @@ data "aws_ami" "cluster_ami" {
     values = ["amzn-ami-*-amazon-ecs-optimized"]
   }
 }
+
