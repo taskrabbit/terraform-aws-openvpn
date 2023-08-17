@@ -70,6 +70,12 @@ variable "assign_eip" {
   default     = "false"
 }
 
+variable "additional_asg_tags" {
+  type        = list(string)
+  description = "Additional tags to apply at the ASG level, if any"
+  default     = []
+}
+
 variable "eip_tag" {
   type        = string
   description = "Tag used to lookup Elastic IP to assign"
