@@ -47,6 +47,7 @@ module "cluster" {
   key_name                      = var.key_name
   root_vol_encrypted            = true
   root_vol_size                 = var.root_vol_size
+  root_vol_type                 = "gp3"
   user_data = coalesce(
     var.ami_custom_user_data,
     data.template_file.user_data.rendered,
