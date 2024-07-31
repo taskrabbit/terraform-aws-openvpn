@@ -3,6 +3,26 @@
 * Bring in covalence to help with bootstrapping/testing. Consider some kitchen/localstack testing.
 * PoC docker-openvpn-server modules
 
+## 2.0.3
+
+#### IMPROVEMENTS:
+- Update OpenVPN cluster with launch template.
+
+## 2.0.2
+
+#### IMPROVEMENTS:
+- Update root volume type to gp3.
+
+## 2.0.1
+
+#### IMPROVEMENTS:
+- Add encryption to root block device.
+
+## 2.0.0
+
+#### IMPROVEMENTS:
+- Add support for additional tags.
+
 ## 1.0.0
 
 #### IMPROVEMENTS:
