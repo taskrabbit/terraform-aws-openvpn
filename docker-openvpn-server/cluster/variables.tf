@@ -31,7 +31,7 @@ variable "ami_custom_user_data" {
 
 variable "key_name" {
   type        = string
-  description = "SSH key pair to associate with the launch configuration."
+  description = "SSH key pair to associate with the launch template."
 }
 
 variable "root_vol_size" {
@@ -46,7 +46,7 @@ variable "vpc_id" {
 
 variable "instance_type" {
   type        = string
-  description = "EC2 instance type to associate with the launch configuration."
+  description = "EC2 instance type to associate with the launch template."
   default     = "t2.small"
 }
 
