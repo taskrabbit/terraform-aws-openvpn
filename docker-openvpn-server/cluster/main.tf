@@ -26,7 +26,7 @@ data "template_file" "user_data" {
 
 ## Creates auto scaling cluster
 module "cluster" {
-  source = "github.com/taskrabbit/terraform-aws-asg?ref=v0.5.1//group"
+  source = "github.com/taskrabbit/terraform-aws-asg?ref=v0.5.2//group"
 
   # Resource tags
   stack_item_label    = var.stack_item_label
