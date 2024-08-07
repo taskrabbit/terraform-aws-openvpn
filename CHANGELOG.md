@@ -3,6 +3,9 @@
 * Bring in covalence to help with bootstrapping/testing. Consider some kitchen/localstack testing.
 * PoC docker-openvpn-server modules
 
+## 2.0.4
+- Update asg module version
+
 ## 2.0.3
 
 #### IMPROVEMENTS:
