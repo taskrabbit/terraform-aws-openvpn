@@ -66,13 +66,13 @@ variable "eip_tag" {
 
 variable "instance_type" {
   type        = string
-  description = "EC2 instance type to associate with the launch configuration."
+  description = "EC2 instance type to associate with the launch template."
   default     = "t2.small"
 }
 
 variable "key_name" {
   type        = string
-  description = "SSH key pair to associate with the launch configuration."
+  description = "SSH key pair to associate with the launch template."
 }
 
 ### TODO: expects 4 subnets to map as internal network routes.

@@ -221,7 +221,7 @@ data "template_file" "user_data" {
 
 ## Creates auto scaling cluster
 module "cluster" {
-  source = "github.com/taskrabbit/terraform-aws-asg?ref=upgrade-0.12//group"
+  source = "github.com/taskrabbit/terraform-aws-asg?ref=v0.5.1//group"
 
   # Resource tags
   stack_item_label = var.stack_item_label
@@ -231,7 +231,7 @@ module "cluster" {
   vpc_id = var.vpc_id
   subnets = [split(",", var.subnets)]
 
-  # LC parameters
+  # LT parameters
   ami = coalesce(var.ami_custom, var.ami_region_lookup[var.region])
   ebs_optimized = "false"
   enable_monitoring = "true"

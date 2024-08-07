@@ -26,7 +26,7 @@ data "template_file" "user_data" {
 
 ## Creates auto scaling cluster
 module "cluster" {
-  source = "github.com/taskrabbit/terraform-aws-asg?ref=v0.4.1//group"
+  source = "github.com/taskrabbit/terraform-aws-asg?ref=v0.5.1//group"
 
   # Resource tags
   stack_item_label    = var.stack_item_label
@@ -36,7 +36,7 @@ module "cluster" {
   vpc_id  = var.vpc_id
   subnets = split(",", var.subnets)
 
-  # LC parameters
+  # LT parameters
   ami                           = coalesce(var.ami_custom, data.aws_ami.cluster_ami.id)
   associate_public_ip_address   = var.associate_public_ip_address
   ebs_optimized                 = "false"
