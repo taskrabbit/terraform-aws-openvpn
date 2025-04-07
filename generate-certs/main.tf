@@ -95,30 +95,30 @@ resource "aws_iam_instance_profile" "profile" {
 resource "aws_security_group" "sg_cert_gen" {
   name_prefix = "${var.stack_item_label}-${var.region}-"
   description = "${var.stack_item_fullname} security group"
-  vpc_id      = var.vpc_id
+  vpc_id = var.vpc_id
 
   tags = {
-    Name        = var.stack_item_label
+    Name = var.stack_item_label
     application = var.stack_item_fullname
-    managed_by  = "terraform"
+    managed_by = "terraform"
   }
 }
 
 resource "aws_security_group_rule" "allow_all_out" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
+  type = "egress"
+  from_port = 0
+  to_port = 0
+  protocol = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
   security_group_id = aws_security_group.sg_cert_gen.id
 }
 
 resource "aws_security_group_rule" "allow_ssh_in" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = split(",", var.cidr_whitelist)
+  type = "ingress"
+  from_port = 22
+  to_port = 22
+  protocol = "tcp"
+  cidr_blocks = split(",", var.cidr_whitelist)
   security_group_id = aws_security_group.sg_cert_gen.id
 }
 
@@ -127,55 +127,42 @@ data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.tpl")
 
   vars = {
-    active_clients   = var.active_clients
-    cert_key_name    = var.cert_key_name
-    cert_key_size    = var.cert_key_size
+    active_clients = var.active_clients
+    cert_key_name = var.cert_key_name
+    cert_key_size = var.cert_key_size
     force_cert_regen = var.force_cert_regen
-    hostname         = var.stack_item_label
-    key_city         = var.key_city
-    key_country      = var.key_country
-    key_email        = var.key_email
-    key_org          = var.key_org
-    key_ou           = var.key_ou
-    key_province     = var.key_province
-    openvpn_host     = var.openvpn_host
-    region           = var.region
-    revoked_clients  = var.revoked_clients
-    s3_bucket        = var.s3_bucket
-    s3_dir_override  = var.s3_bucket_prefix
-    s3_push_dryrun   = var.s3_push_dryrun
+    hostname = var.stack_item_label
+    key_city = var.key_city
+    key_country = var.key_country
+    key_email = var.key_email
+    key_org = var.key_org
+    key_ou = var.key_ou
+    key_province = var.key_province
+    openvpn_host = var.openvpn_host
+    region = var.region
+    revoked_clients = var.revoked_clients
+    s3_bucket = var.s3_bucket
+    s3_dir_override = var.s3_bucket_prefix
+    s3_push_dryrun = var.s3_push_dryrun
   }
 }
 
 ## Creates instance
 resource "aws_instance" "generate_certs" {
-  ami                         = coalesce(var.ami_region_lookup[var.region], var.ami_custom)
-  instance_type               = var.instance_type
-  key_name                    = var.key_name
-  vpc_security_group_ids      = [aws_security_group.sg_cert_gen.id]
-  subnet_id                   = var.subnet
+  ami = coalesce(var.ami_region_lookup[var.region], var.ami_custom)
+  instance_type = var.instance_type
+  key_name = var.key_name
+  vpc_security_group_ids = [aws_security_group.sg_cert_gen.id]
+  subnet_id = var.subnet
   associate_public_ip_address = true
-  iam_instance_profile        = aws_iam_instance_profile.profile.id
-
+  iam_instance_profile = aws_iam_instance_profile.profile.id
 
   tags = {
-    Name        = var.stack_item_label
+    Name = var.stack_item_label
     application = var.stack_item_fullname
-    managed_by  = "terraform"
+    managed_by = "terraform"
   }
 
   user_data = data.template_file.user_data.rendered
-
-  # Replace with a simple "metadata_options" block when rolling out to Prod.
-  # This ensures we don't introduce drift to Prod in the meantime.
-  dynamic "metadata_options" {
-    for_each = var.enable_imdsv2 ? [1] : []
-
-    content {
-      http_endpoint               = "enabled"
-      http_tokens                 = "required"
-      http_put_response_hop_limit = 2
-    }
-  }
 }
 
