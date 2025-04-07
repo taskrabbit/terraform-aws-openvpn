@@ -1,6 +1,11 @@
 # Input Variables
 
 ## Resource tags
+variable "enable_imdsv2" {
+  type    = bool
+  default = false
+}
+
 variable "stack_item_label" {
   type        = string
   description = "Short form identifier for this stack. This value is used to create the 'Name' resource tag for resources created by this stack item, and also serves as a unique key for re-use."
@@ -14,7 +19,7 @@ variable "stack_item_fullname" {
 variable "iam_path" {
   type        = string
   description = "The path to the IAM resources"
-  default = "/"
+  default     = "/"
 }
 
 variable "ami_custom" {

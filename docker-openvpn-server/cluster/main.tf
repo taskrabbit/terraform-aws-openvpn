@@ -26,7 +26,7 @@ data "template_file" "user_data" {
 
 ## Creates auto scaling cluster
 module "cluster" {
-  source = "github.com/taskrabbit/terraform-aws-asg?ref=v0.5.2//group"
+  source = "github.com/taskrabbit/terraform-aws-asg?ref=v0.6.0//group"
 
   # Resource tags
   stack_item_label    = var.stack_item_label
@@ -40,6 +40,7 @@ module "cluster" {
   ami                           = coalesce(var.ami_custom, data.aws_ami.cluster_ami.id)
   associate_public_ip_address   = var.associate_public_ip_address
   ebs_optimized                 = "false"
+  enable_imdsv2                 = var.enable_imdsv2
   enable_monitoring             = "true"
   instance_based_naming_enabled = var.instance_based_naming_enabled
   instance_profile              = aws_iam_instance_profile.profile.id
