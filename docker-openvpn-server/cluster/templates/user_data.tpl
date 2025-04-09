@@ -6,7 +6,14 @@ runcmd:
   - curl -s -O https://bootstrap.pypa.io/get-pip.py && python get-pip.py
   - /usr/local/bin/pip install awscli && ln -sf /usr/local/bin/aws /usr/bin/
 
-  - export INSTANCE_ID=`curl http://169.254.169.254/latest/meta-data/instance-id`
+   # Fetch IMDSv2 token
+  - |
+    TOKEN=$(curl -H "X-aws-ec2-metadata-token-ttl-seconds: 60" -X PUT "http://169.254.169.254/latest/api/token")
+    echo "IMDSv2 token fetched: $TOKEN"
+
+  # Use the token to make a metadata request
+  - |
+    INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s "http://169.254.169.254/latest/meta-data/instance-id")
   - docker pull ${openvpn_docker_image}:${openvpn_docker_tag}
   - mkdir -p /opt/openvpn
   - touch /opt/openvpn/.env && chmod 700 /opt/openvpn/.env
