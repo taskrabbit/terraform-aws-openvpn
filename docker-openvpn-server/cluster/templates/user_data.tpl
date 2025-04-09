@@ -34,4 +34,5 @@ runcmd:
 
   - docker run -d --name openvpn --env-file=/opt/openvpn/.env --cap-add=NET_ADMIN --device=/dev/net/tun -v /opt/openvpn/:/etc/openvpn/ -v /var/run/openvpn/:/var/run/openvpn -p 1194:1194/tcp ${openvpn_docker_image}:${openvpn_docker_tag} /start_server.sh
   - if [ ${assign_eip} = 'true' ]; then for eip in `aws ec2 describe-tags --region=${region} --filters  "Name=resource-type,Values=elastic-ip" "Name=value,Values=${stack_item_label}" | jq -r '.Tags[].ResourceId'`; do if [ `aws ec2 describe-addresses --allocation-id $${eip} --region=${region} | jq -r '.Addresses[].InstanceId'` = 'null' ]; then echo "$${eip} is available, assigning it to current instance";aws ec2 associate-address --instance-id "$${INSTANCE_ID}" --allocation-id $${eip} --region=${region};else echo "$${eip} is taken";fi; done;fi
+
 output : { all : '| tee -a /var/log/cloud-init-output.log' }
