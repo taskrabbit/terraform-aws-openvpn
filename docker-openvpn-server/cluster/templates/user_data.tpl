@@ -14,6 +14,8 @@ runcmd:
   # Use the token to make a metadata request
   - |
     INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s "http://169.254.169.254/latest/meta-data/instance-id")
+    echo "Instance ID:$INSTANCE_ID"
+    echo "Instance ID (double):$${INSTANCE_ID}"
   - docker pull ${openvpn_docker_image}:${openvpn_docker_tag}
   - mkdir -p /opt/openvpn
   - touch /opt/openvpn/.env && chmod 700 /opt/openvpn/.env
